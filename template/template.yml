@@ -1,0 +1,19 @@
+heat_template_version: 2013-05-23
+
+description: Simple template to deploy a single node
+
+resources:
+  node:
+    type: OS::IoTronic::Node
+    properties:
+      created_at: "030616"
+      updated_at:	"030616"
+      id:	        123
+      uuid:       "test_node"
+      code:       "node_code"
+      status:     "enabled"
+      name:       "mynode"
+      device:     "device_1"
+      session:    "mysession"
+      mobile:     1
+      extra:      "data_extra"     
