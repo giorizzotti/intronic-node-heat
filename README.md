@@ -31,7 +31,7 @@ OS::IoTronic::Node
 
 ```heat stack-create [name_of_stack] --template-file=template.yaml``` 
 
-* To check that the **handle_create** method is handled:
+* To check if the node was created:
 
 ```
 iotronic node-list
