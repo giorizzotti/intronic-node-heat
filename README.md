@@ -34,6 +34,5 @@ OS::IoTronic::Node
 * To check that the **handle_create** method is handled:
 
 ```
-cat /var/log/heat/heat-engine.log | grep [node_name]
-ERROR heat.engine.plugins.IoTronicNode [-] NODE CREATED: (u'030616',) (u'mynode',)
+iotronic node-list
 ```
