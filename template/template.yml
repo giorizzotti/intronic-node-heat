@@ -6,14 +6,8 @@ resources:
   node:
     type: OS::IoTronic::Node
     properties:
-      created_at: "030616"
-      updated_at:	"030616"
-      id:	        123
-      uuid:       "test_node"
-      code:       "node_code"
-      status:     "enabled"
-      name:       "mynode"
-      device:     "device_1"
-      session:    "mysession"
+      code:       "testcode"
+      name:       "testname"
+      device:     "testdevice"
       mobile:     1
-      extra:      "data_extra"     
+      location:   "3,3,3"     

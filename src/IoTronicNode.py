@@ -49,7 +49,8 @@ class IoTronicNode(resource.Resource):
         DEVICE,
         SESSION,
         MOBILE,
-        EXTRA) = (
+        EXTRA,
+        LOCATION) = (
         'created_at',
         'updated_at',
         'id',
@@ -60,7 +61,8 @@ class IoTronicNode(resource.Resource):
         'device',
         'session',
         'mobile',
-        'extra')
+        'extra',
+        'location')
 
     properties_schema = {
         CREATED_AT: properties.Schema(
@@ -80,14 +82,14 @@ class IoTronicNode(resource.Resource):
         ID: properties.Schema(
             properties.Schema.INTEGER,
             _('The unique id for the node.'),
-            required=True,
+            required=False,
             update_allowed=False
         ),
 
         UUID: properties.Schema(
             properties.Schema.STRING,
             _('The unique id for the node.'),
-            required=True,
+            required=False,
             update_allowed=False
         ),
 
@@ -108,14 +110,14 @@ class IoTronicNode(resource.Resource):
         NAME: properties.Schema(
             properties.Schema.STRING,
             _('The name of the node.'),
-            required=False,
+            required=True,
             update_allowed=True
         ),
 
         DEVICE: properties.Schema(
             properties.Schema.STRING,
             _('The typology of the node.'),
-            required=False,
+            required=True,
             update_allowed=True
         ),
 
@@ -138,26 +140,39 @@ class IoTronicNode(resource.Resource):
             _('List of metadata defined by the user.'),
             required=False,
             update_allowed=True
+        ),
+        
+        LOCATION: properties.Schema(
+            properties.Schema.STRING,
+            _('The locations of the node.'),
+            required=False,
+            update_allowed=True
         )
+
     }
 
     def handle_create(self):
-        created_at = self.properties.get(self.CREATED_AT),
-        updated_at=self.properties.get(self.UPDATED_AT),
-        id=self.properties.get(self.ID),
-        uuid=self.properties.get(self.UUID),
-        code=self.properties.get(self.CODE),
-        status=self.properties.get(self.STATUS),
-        name=self.properties.get(self.NAME),
-        device=self.properties.get(self.DEVICE),
-        session=self.properties.get(self.SESSION),
-        mobile=self.properties.get(self.MOBILE),
-        extra=self.properties.get(self.EXTRA)
+        code = str(self.properties.get(self.CODE))
+        name = str(self.properties.get(self.NAME))
+        device = str(self.properties.get(self.DEVICE))
         
-        LOG.error("NODE CREATED: %s %s", created_at, name)
+        mobileStr = int(self.properties.get(self.MOBILE))
+        mobile = bool(mobileStr)
+        
+        location = str(self.properties.get(self.LOCATION))
 
-        LOG.error(myclient.node.list())     
-
+        if len(location) > 0:
+            locationSplitted = location.split(",")
+            latitude = locationSplitted[0]
+            longitude = locationSplitted[1]
+            height = locationSplitted[2]
+        else:
+            latitude = 0
+            longitude = 0
+            height = 0
+        
+        myclient.node._create(code, name, device, latitude, longitude, height, mobile)
+        
 
 def resource_mapping():
     mappings = {}
